@@ -1,6 +1,6 @@
 
 exports.getHome=(req,res, next) =>{
-    res.render('home',{pageTitle:'WMSNextGo',path:'/home'});
+    res.render('home',{pageTitle:'WMSNextGo'});
 }
 
 

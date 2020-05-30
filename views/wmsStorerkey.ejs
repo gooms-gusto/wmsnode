@@ -3,22 +3,24 @@
 
     <%- include('includes/navigation.ejs')  %>
 
+
+
         <div class="container-fluid">
             <div class="page-header ">
                 <div class="row">
                     <div class="col-sm-9">
-                        <form class="needs-validation" novalidate="">
+                        <form action="/wmsstorerkey" method="POST">
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
-                                    <label for="validationCustom01">Storerkey</label>
-                                    <input class="form-control" id="_TxtStorerKey" type="text" placeholder="StorerKey" required="">
+                                    <label for="StorerKey">Storerkey</label>
+                                    <input class="form-control" name="txtstorerkey" type="text" placeholder="StorerKey" required="">
                                 </div>
 
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
-                                    <label for="validationCustom01">StorerName</label>
-                                    <input class="form-control" id="_TxtStorerName" type="text" placeholder="StorerName" required="">
+                                    <label for="StorerName">StorerName</label>
+                                    <input class="form-control" name="txtstorername" type="text" placeholder="StorerName" required="">
 
                                 </div>
                             </div>
@@ -28,5 +30,54 @@
                 </div>
             </div>
         </div>
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Ajax data source array start-->
+                <div class="col-sm-7">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Storer Data</h5><span></span>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="display datatables" id="mygrid">
+                                    <thead>
+                                        <tr>
+                                            <th>storerkey</th>
+                                            <th>StorerName</th>
 
-        <%- include('includes/footer.ejs')  %>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>StorerKey</th>
+                                            <th>StorerName</th>
+
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <%- include('includes/footer.ejs')  %>
+
+                    <script>
+                        $(document).ready(function() {
+
+                            $('#mygrid').DataTable({
+                                ajax: {
+                                    url: "/getdataStorerkey",
+                                    type: 'GET'
+                                },
+                                columns: [{
+                                    data: 'storerkey'
+                                }, {
+                                    data: 'storername'
+                                }]
+                            });
+                        });
+                    </script>

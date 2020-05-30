@@ -1,4 +1,4 @@
-const _storerkey = [];
+const _storerkeys = [];
 const _patch = require('path');
 
 module.exports = class storerkey {
@@ -8,10 +8,10 @@ module.exports = class storerkey {
     }
 
     save() {
-        _storerkey.push(this);
+        _storerkeys.push({ storerkey: this.storerkey, storername: this.storername });
     }
 
-    fetchAll() {
-        return _storerkey;
+    static fetchAll() {
+        return _storerkeys;
     }
 }

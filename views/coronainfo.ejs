@@ -1,0 +1,68 @@
+<%- include('includes/header.ejs') %>
+
+
+    <%- include('includes/navigation.ejs')  %>
+
+
+
+
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Ajax data source array start-->
+                <div class="col-sm-7">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Storer Data</h5><span></span>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="display datatables" id="coronagrid">
+                                    <thead>
+                                        <tr>
+                                            <th>OBJECTID</th>
+                                            <th>Country_Region</th>
+                                            <th>Confirmed</th>
+                                            <th>Deaths</th>
+                                            <th>Recovered</th>
+                                            <th>Active</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>OBJECTID</th>
+                                            <th>Country_Region</th>
+                                            <th>Confirmed</th>
+                                            <th>Deaths</th>
+                                            <th>Recovered</th>
+                                            <th>Active</th>
+
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <%- include('includes/footer.ejs')  %>
+
+                    <script>
+                        $(document).ready(function() {
+
+                            $('#coronagrid').DataTable({
+                                ajax: {
+                                    url: "https://api.kawalcorona.com/",
+                                    type: 'GET',
+                                    dataType: 'json',
+                                },
+                                columns: [{
+                                    attributes: 'OBJECTID'
+                                }, {
+                                    attributes: 'Country_Region'
+                                }]
+                            });
+                        });
+                    </script>

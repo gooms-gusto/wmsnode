@@ -1,0 +1,19 @@
+<% dataInfo.forEach(element => { %>
+    <form action="/wmsstorerkeypost" method="POST">
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="StorerKey">Storerkey</label>
+                <input class="form-control" name="txtstorerkey" type="text" placeholder="StorerKey" value="<%= element.storerkey %> " " required=" ">
+        </div>
+    </div>
+    <div class="form-row ">
+        <div class="col-md-4 mb-3 ">
+            <label for="StorerName ">StorerName</label>c
+            <input class="form-control " name="txtstorername " type="text " placeholder="StorerName "
+            value="<%=element.storername %> " required="">
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Update</button>
+        <input type="button" onclick="Backform()" class="btn btn-primary" value="Back"></input>
+    </form>
+    <% }) %>

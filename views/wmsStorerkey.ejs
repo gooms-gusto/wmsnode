@@ -5,79 +5,111 @@
 
 
 
+
         <div class="container-fluid">
             <div class="page-header ">
                 <div class="row">
                     <div class="col-sm-9">
-                        <form action="/wmsstorerkey" method="POST">
-                            <div class="form-row">
-                                <div class="col-md-4 mb-3">
-                                    <label for="StorerKey">Storerkey</label>
-                                    <input class="form-control" name="txtstorerkey" type="text" placeholder="StorerKey" required="">
-                                </div>
-
-                            </div>
-                            <div class="form-row">
-                                <div class="col-md-4 mb-3">
-                                    <label for="StorerName">StorerName</label>
-                                    <input class="form-control" name="txtstorername" type="text" placeholder="StorerName" required="">
-
-                                </div>
-                            </div>
-                            <button class="btn btn-primary" type="submit">Save</button>
-                        </form>
+                        <% if (mode=='0') { %>
+                            <%- include('includes/layoutwmsStorerkey0.ejs')  %>
+                                <% } else if(mode=='1') {%>
+                                    <%- include('includes/layoutwmsStorerkey1.ejs')  %>
+                                        <% } %>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container-fluid">
-            <div class="row">
-                <!-- Ajax data source array start-->
-                <div class="col-sm-7">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Storer Data</h5><span></span>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="display datatables" id="mygrid">
-                                    <thead>
-                                        <tr>
-                                            <th>storerkey</th>
-                                            <th>StorerName</th>
+        <% if (mode=='0') { %>
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Ajax data source array start-->
+                    <div class="col-sm-7">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Storer Data</h5><span></span>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="display datatables" id="mygrid">
+                                        <thead>
+                                            <tr>
+                                                <th>storerkey</th>
+                                                <th>StorerName</th>
 
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>StorerKey</th>
-                                            <th>StorerName</th>
+                                            </tr>
+                                        </thead>
 
-                                        </tr>
-                                    </tfoot>
-                                </table>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+
+                    <% } %>
+
+                        <%- include('includes/footer.ejs')  %>
+
+                            <script>
+                                var _data;
+                                var _mode = '<%= mode %>'
+
+                                if (_mode == '0') {
+                                    _data = '<%- JSON.stringify(dataState) %>';
+                                }
+
+                                function Backform() {
+                                    window.location.href = "/wmsStorerkey";
+                                }
+
+                                $(document).ready(function() {
+
+                                    $("#mygrid").jsGrid({
+                                        width: "100%",
+                                        height: "auto",
+                                        autoload: true,
+                                        paging: true,
+                                        pageSize: 5,
+                                        pageButtonCount: 5,
+                                        pageIndex: 1,
+                                        data: JSON.parse(_data),
+                                        fields: [{
+                                            name: "storerkey",
+                                            title: "StorerKey",
+                                            type: "text",
+                                            width: 80,
+                                            validate: "required",
+                                            filtering: true
+                                        }, {
+                                            name: "storername",
+                                            title: "StorerName",
+                                            type: "text",
+                                            width: 150
+                                        }, {
+                                            title: "Modify",
+                                            itemTemplate: function(value, item) {
+                                                var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
+                                                var $customButtonEdit = $("<button>").attr({
+                                                        class: "customGridEditbutton jsgrid-button jsgrid-edit-button"
+                                                    })
+                                                    .click(function(e) {
+                                                        window.location.href = "/wmsstorerkey/update/" + item.storerkey;
+                                                        e.stopPropagation();
+                                                    });
+                                                var $customButtonDelete = $("<button>").attr({
+                                                        class: "customGridEditbutton jsgrid-button jsgrid-delete-button"
+                                                    })
+                                                    .click(function(e) {
+                                                        alert("delete: " + item.storerkey);
+                                                        e.stopPropagation();
+                                                    });
+
+                                                return $("<div>").attr({
+                                                    class: "btn-toolbar"
+                                                }).append($customButtonEdit).append($customButtonDelete);
+                                            }
+                                        }]
+                                    });
 
 
-
-                <%- include('includes/footer.ejs')  %>
-
-                    <script>
-                        $(document).ready(function() {
-
-                            $('#mygrid').DataTable({
-                                ajax: {
-                                    url: "/getdataStorerkey",
-                                    type: 'GET'
-                                },
-                                columns: [{
-                                    data: 'storerkey'
-                                }, {
-                                    data: 'storername'
-                                }]
-                            });
-                        });
-                    </script>
+                                });
+                            </script>

@@ -5,4 +5,5 @@ const _wms_storerkeyController = require('../controller/wms_storerkeyController'
 
 _router.get('/getdataStorerkey', _wms_storerkeyController.getdataStorerKey);
 
+
 exports.routes = _router;

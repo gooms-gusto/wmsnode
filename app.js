@@ -7,6 +7,7 @@ const _routeWmsStorerkey = require('./route/wms_storerkey');
 const _routegetdatastorerkey = require('./route/getdataStorerkey');
 const _errorpageController = require('./controller/notfoundController');
 const _rootdir = require('./utils/path');
+const _mongoConnect = require('./utils/database');
 _app.set('view engine', 'ejs');
 _app.set('views', 'views');
 
@@ -18,5 +19,7 @@ _app.use(_routeWmsStorerkey.routes);
 _app.use(_routegetdatastorerkey.routes);
 _app.use(_errorpageController.getErrorpage);
 
-
-_app.listen(3000);
+_mongoConnect.mongoConnect((client) => {
+    // console.log(client);
+    _app.listen(3000);
+});

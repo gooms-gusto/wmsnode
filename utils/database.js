@@ -1,4 +1,24 @@
 const mongodb = require('mongodb');
-const mongoclient = mongodb.mongoclient;
+const mongoclient = mongodb.MongoClient;
+let _db;
 
-mongoclient.connect('mongodb+srv://<root>:<u89010>@goomsgusto85-daty4.mongodb.net/<dbname>?retryWrites=true&w=majority');
+const mongoConnect = (callback) => {
+    mongoclient.connect('mongodb://akbar:u89010@tms1.schenker.co.id:27017/wmsprod')
+        .then(client => {
+            console.log('connected');
+            _db = client.db();
+            callback(client);
+        }).catch(err => {
+            console.log(err);
+        });
+}
+
+const getDb = () => {
+    if (_db) {
+        return _db;
+    }
+    throw 'no database connected!';
+}
+
+exports.mongoConnect = mongoConnect;
+exports.getMongoDb = getDb;

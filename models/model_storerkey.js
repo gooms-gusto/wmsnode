@@ -1,7 +1,9 @@
-const _storerkeys = [];
 const _patch = require('path');
+const _getDb = require('../utils/database').getMongoDb;
 
-module.exports = class storerkey {
+module.exports = class storer {
+
+
     constructor(sk, sn) {
         this.storerkey = sk;
         this.storername = sn;
@@ -9,12 +11,18 @@ module.exports = class storerkey {
 
     save() {
 
-        _storerkeys.push({ storerkey: this.storerkey, storername: this.storername });
-        //console.log(_storerkeys);
+        const _dal = _getDb();
+        _dal.collection('storer').insertOne(this).then(result => {
+            console.log(result);
+        }).catch(err => {
+            console.log(err);
+        });
+
     }
 
     static getstorerById(paramKey) {
-        var _resultfind = _storerkeys.filter(it => it.storerkey === paramKey);
+        const _storer = [];
+        const _resultfind = _storer.filter(it => it.storerkey === paramKey);
         if (_resultfind.length > 0) {
             //console.log(_resultfind);
             return _resultfind;
@@ -25,6 +33,13 @@ module.exports = class storerkey {
 
     static fetchAll() {
 
-        return _storerkeys;
+        const _dal = _getDb();
+        return _dal.collection('storer').find().toArray().then(result => {
+            return result;
+        }).catch(error => {
+            console.log(error);
+        });
+
+
     }
 }

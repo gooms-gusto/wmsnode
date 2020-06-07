@@ -92,14 +92,14 @@
                                                         class: "customGridEditbutton jsgrid-button jsgrid-edit-button"
                                                     })
                                                     .click(function(e) {
-                                                        window.location.href = "/wmsstorerkey/update/" + item.storerkey;
+                                                        window.location.href = "/wmsstorerkey/update/" + item._id;
                                                         e.stopPropagation();
                                                     });
                                                 var $customButtonDelete = $("<button>").attr({
                                                         class: "customGridEditbutton jsgrid-button jsgrid-delete-button"
                                                     })
                                                     .click(function(e) {
-                                                        alert("delete: " + item.storerkey);
+                                                        window.location.href = "/wmsstorerkey/delete/" + item._id;
                                                         e.stopPropagation();
                                                     });
 

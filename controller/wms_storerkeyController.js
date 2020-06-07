@@ -1,5 +1,5 @@
 const storer = require('../models/model_storerkey');
-
+const mongodb = require('mongodb');
 exports.getWmsStorerKey = (req, res, next) => {
     // const objectData = {};
     // objectData.data = storer.fetchAll();
@@ -7,6 +7,16 @@ exports.getWmsStorerKey = (req, res, next) => {
     storer.fetchAll().then(result => {
 
         res.render('wmsStorerkey', { pageTitle: 'WMSNextGo', dataState: result, mode: '0' })
+    });
+
+}
+
+exports.deldataStorekey = (req, res, next) => {
+    var _paramStorerkey = req.params.storerkey;
+    storer.delstorerById(_paramStorerkey).then(result => {
+        if (result) {
+            res.redirect("/wmsstorerkey")
+        }
     });
 
 }
@@ -21,22 +31,36 @@ exports.getdataStorerKey = (req, res, next) => {
 
 exports.postWmsStorerKey = (req, res, next) => {
 
-    const _paramstorer = new storer(req.body.txtstorerkey, req.body.txtstorername);
-    _paramstorer.save();
-    //const objectData = {};
-    //objectData.data = storer.fetchAll();
-    storer.fetchAll().then(result => {
-        res.render('wmsStorerkey', { pageTitle: 'WMSNextGo', dataState: result, mode: '0', path: '/wmsStorerkey' })
-    });
+
+    if (req.body.txt_id) {
+        const _paramstorer = new storer(req.body.txtstorerkey, req.body.txtstorername, req.body.txt_id);
+        _paramstorer.update().then(result => {
+            if (result == true)
+                res.redirect("/wmsstorerkey");
+
+
+
+        });
+    } else {
+        // console.log(req.body.txt_id);
+        const _paramstorer = new storer(req.body.txtstorerkey, req.body.txtstorername, null);
+        _paramstorer.save().then(result => {
+            if (result == true)
+                res.redirect("/wmsstorerkey");
+        });
+    }
+
+
 
 }
 
 exports.getdataStorerkeyByID = (req, res, next) => {
     var _paramStorerkey = req.params.storerkey;
-
-    var _data = [];
     if (_paramStorerkey) {
-        _data = storer.getstorerById(_paramStorerkey);
-        res.render('wmsStorerkey', { pageTitle: 'WMSNextGo', dataInfo: _data, dataState: null, mode: '1' })
+
+        storer.getstorerById(_paramStorerkey).then(result => {
+            res.render('wmsStorerkey', { pageTitle: 'WMSNextGo', dataInfo: result, dataState: null, mode: '1' });
+        });
+
     }
 }
